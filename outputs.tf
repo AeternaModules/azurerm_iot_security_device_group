@@ -1,3 +1,7 @@
+output "iot_security_device_groups_id" {
+  description = "Map of id values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.id }
+}
 output "iot_security_device_groups_allow_rule" {
   description = "Map of allow_rule values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
   value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.allow_rule }
