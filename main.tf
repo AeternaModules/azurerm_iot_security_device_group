@@ -15,7 +15,7 @@ resource "azurerm_iot_security_device_group" "iot_security_device_groups" {
   }
 
   dynamic "range_rule" {
-    for_each = each.value.range_rule != null ? [each.value.range_rule] : []
+    for_each = each.value.range_rule != null ? each.value.range_rule : []
     content {
       duration = range_rule.value.duration
       max      = range_rule.value.max
