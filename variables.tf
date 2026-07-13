@@ -33,32 +33,30 @@ EOT
       type     = string
     })))
   }))
-  # --- Unconfirmed validation candidates, derived from azurerm_iot_security_device_group's provider source ---
-  # Not auto-enabled: either a bespoke provider validator we can't safely translate,
-  # or a path that crosses a list-typed block (needs its own for_each wrapping).
-  # Review, translate into a real validation{} block above, and delete once confirmed.
-  # path: name
-  #   condition: length(value) > 0
-  #   message:   must not be empty
-  # path: iothub_id
-  #   source:    [from iothubValidate.IotHubID] !ok
-  # path: iothub_id
-  #   source:    [from iothubValidate.IotHubID] err != nil
-  # path: allow_rule.connection_from_ips_not_allowed[*]
-  #   source:    [from validate.CIDR] re != nil && !re.MatchString(cidr)
-  # path: allow_rule.connection_to_ips_not_allowed[*]
-  #   source:    [from validate.CIDR] re != nil && !re.MatchString(cidr)
-  # path: range_rule.type
-  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
-  # path: range_rule.max
-  #   condition: value >= 0
-  #   message:   must be at least 0
-  # path: range_rule.min
-  #   condition: value >= 0
-  #   message:   must be at least 0
-  # path: range_rule.duration
-  #   source:    [from validate.ISO8601Duration] !ok
-  # path: range_rule.duration
-  #   source:    [from validate.ISO8601Duration] err != nil
+  validation {
+    condition = alltrue([
+      for k, v in var.iot_security_device_groups : (
+        length(v.name) > 0
+      )
+    ])
+    error_message = "must not be empty"
+  }
+  validation {
+    condition = alltrue([
+      for k, v in var.iot_security_device_groups : (
+        v.range_rule == null || alltrue([for item in v.range_rule : (item.max >= 0)])
+      )
+    ])
+    error_message = "must be at least 0"
+  }
+  validation {
+    condition = alltrue([
+      for k, v in var.iot_security_device_groups : (
+        v.range_rule == null || alltrue([for item in v.range_rule : (item.min >= 0)])
+      )
+    ])
+    error_message = "must be at least 0"
+  }
+  # Note: 7 additional provider-side validators are enforced at apply time but not mirrored as validation{} blocks here (bespoke or non-mechanically-translatable).
 }
 
