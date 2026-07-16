@@ -1,21 +1,21 @@
 output "iot_security_device_groups_id" {
   description = "Map of id values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
-  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.id }
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.id if v.id != null && length(v.id) > 0 }
 }
 output "iot_security_device_groups_allow_rule" {
   description = "Map of allow_rule values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
-  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.allow_rule }
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.allow_rule if v.allow_rule != null && length(v.allow_rule) > 0 }
 }
 output "iot_security_device_groups_iothub_id" {
   description = "Map of iothub_id values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
-  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.iothub_id }
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.iothub_id if v.iothub_id != null && length(v.iothub_id) > 0 }
 }
 output "iot_security_device_groups_name" {
   description = "Map of name values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
-  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.name }
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.name if v.name != null && length(v.name) > 0 }
 }
 output "iot_security_device_groups_range_rule" {
   description = "Map of range_rule values across all iot_security_device_groups, keyed the same as var.iot_security_device_groups"
-  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.range_rule }
+  value       = { for k, v in azurerm_iot_security_device_group.iot_security_device_groups : k => v.range_rule if v.range_rule != null && length(v.range_rule) > 0 }
 }
 
